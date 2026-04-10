@@ -51,4 +51,4 @@ jobs:
         run: |
           set -e
           export PATH="$HOME/.local/bin:$PATH"
-          cook doctor validate -b . --strict
+          cook doctor validate --strict
