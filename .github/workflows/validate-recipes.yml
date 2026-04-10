@@ -20,26 +20,32 @@ jobs:
       - name: Install CookCLI
         run: |
           set -e
+          export PATH="$HOME/.local/bin:$PATH"
+
           if command -v cook >/dev/null 2>&1; then
             echo "CookCLI already installed"
+            cook --version
             exit 0
           fi
 
-          if command -v npm >/dev/null 2>&1; then
-            npm install -g @cooklang/cli || npm install -g cooklang || true
-          fi
+          arch=$(uname -m)
+          case "$arch" in
+            x86_64) asset="cook-x86_64-unknown-linux-gnu.tar.gz" ;;
+            aarch64|arm64) asset="cook-aarch64-unknown-linux-gnu.tar.gz" ;;
+            *) echo "Unsupported architecture: $arch" >&2 ; exit 1 ;;
+          esac
 
-          if command -v python3 >/dev/null 2>&1; then
-            if command -v pip3 >/dev/null 2>&1; then
-              pip3 install --user cooklang || true
-            fi
-            export PATH="$HOME/.local/bin:$PATH"
-          fi
+          url="https://github.com/cooklang/cookcli/releases/latest/download/$asset"
+          mkdir -p "$HOME/.local/bin" /tmp/cookcli
+          curl -L -o /tmp/cookcli/cook.tar.gz "$url"
+          tar -xzf /tmp/cookcli/cook.tar.gz -C /tmp/cookcli
+          install -m 0755 /tmp/cookcli/cook "$HOME/.local/bin/cook"
 
           if ! command -v cook >/dev/null 2>&1; then
-            echo "CookCLI installation failed. Please install the CLI manually or update the workflow." >&2
+            echo "CookCLI installation failed after download." >&2
             exit 1
           fi
+          cook --version
 
       - name: Validate all .cook recipes
         run: |
