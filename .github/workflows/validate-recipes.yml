@@ -1,0 +1,48 @@
+name: Validate Cooklang recipes
+
+on:
+  push:
+    paths:
+      - '**/*.cook'
+      - '.github/workflows/validate-recipes.yml'
+  pull_request:
+    paths:
+      - '**/*.cook'
+      - '.github/workflows/validate-recipes.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install CookCLI
+        run: |
+          set -e
+          if command -v cook >/dev/null 2>&1; then
+            echo "CookCLI already installed"
+            exit 0
+          fi
+
+          if command -v npm >/dev/null 2>&1; then
+            npm install -g @cooklang/cli || npm install -g cooklang || true
+          fi
+
+          if command -v python3 >/dev/null 2>&1; then
+            if command -v pip3 >/dev/null 2>&1; then
+              pip3 install --user cooklang || true
+            fi
+            export PATH="$HOME/.local/bin:$PATH"
+          fi
+
+          if ! command -v cook >/dev/null 2>&1; then
+            echo "CookCLI installation failed. Please install the CLI manually or update the workflow." >&2
+            exit 1
+          fi
+
+      - name: Validate all .cook recipes
+        run: |
+          set -e
+          export PATH="$HOME/.local/bin:$PATH"
+          cook doctor validate -b . --strict
