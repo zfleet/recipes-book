@@ -6,8 +6,8 @@ Une collection organisée de recettes culinaires en format `.cook`.
 
 Les recettes sont organisées par catégorie :
 
-- **🥂 aperitif/** - Recettes d'apéritifs et entrées
 - **☕ boisson/** - Boissons chaudes et froides (chai latte, thé, etc.)
+- **🍸 cocktails/** - Cocktails (geisha martini, daiquiri, martinez, etc.)
 - **🍪 collation/** - Gourmandises et encas (cookies, madeleines, carrés au chocolat, etc.)
 - **🍰 dessert/** - Desserts et pâtisseries (canelés, cheesecake, tiramisu, brownies, muffins, etc.)
 - **🍲 plat/** - Plats principaux (cake aux lardons, poulet aux fruits, etc.)
