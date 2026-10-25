@@ -30,14 +30,14 @@ jobs:
 
           arch=$(uname -m)
           case "$arch" in
-            x86_64) asset="cook-x86_64-unknown-linux-gnu.tar.gz" ;;
-            aarch64|arm64) asset="cook-aarch64-unknown-linux-gnu.tar.gz" ;;
+            x86_64) asset="cook-0.39.0-linux-x86_64-gnu.tar.gz" ;;
+            aarch64|arm64) asset="cook-0.39.0-linux-aarch64-musl.tar.gz" ;;
             *) echo "Unsupported architecture: $arch" >&2 ; exit 1 ;;
           esac
 
-          url="https://github.com/cooklang/cookcli/releases/latest/download/$asset"
+          url="https://github.com/cooklang/cookcli/releases/download/v0.39.0/$asset"
           mkdir -p "$HOME/.local/bin" /tmp/cookcli
-          curl -L -o /tmp/cookcli/cook.tar.gz "$url"
+          curl -fL -o /tmp/cookcli/cook.tar.gz "$url"
           tar -xzf /tmp/cookcli/cook.tar.gz -C /tmp/cookcli
           install -m 0755 /tmp/cookcli/cook "$HOME/.local/bin/cook"
 
