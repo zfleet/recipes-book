@@ -2,13 +2,7 @@ name: Validate Cooklang recipes
 
 on:
   push:
-    paths:
-      - '**/*.cook'
-      - '.github/workflows/validate-recipes.yml'
   pull_request:
-    paths:
-      - '**/*.cook'
-      - '.github/workflows/validate-recipes.yml'
 
 jobs:
   validate:
